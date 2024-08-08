@@ -1,0 +1,108 @@
+[
+    {
+        "questionText": "What is the latin name for the chanterelle mushroom?",
+        "required": true,
+        "questionType": "radio",
+        "answers": [
+            {
+                "answerText": "Cantharellus cibarius",
+                "correct": true
+            },
+            {
+                "answerText": "Cantharellus",
+                "correct": false
+            },
+            {
+                "answerText": "Chantarellius Dorus",
+                "correct": false
+            }
+        ]
+    },
+    {
+        "questionText": "Which of these mushrooms are not poisonous?",
+        "required": true,
+        "questionType": "multiple",
+        "answers": [
+            {
+                "answerText": "Porcino (Boletus edulis)",
+                "correct": true
+            },
+            {
+                "answerText": "Bearded tooth fungus (Hericium erinaceus)",
+                "correct": true
+            },
+            {
+                "answerText": "Fly agaric (Amanita muscaria)",
+                "correct": false
+            }
+        ]
+    },
+    {
+        "questionText": "What is the synonym of the noun mushroom?",
+        "required": true,
+        "questionType": "text",
+        "answers": [
+            {
+                "answerText": "Fungus",
+                "correct": true
+            }
+        ]
+    },
+    {
+        "questionText": "How many different mushroom species are there approximately?",
+        "required": true,
+        "questionType": "radio",
+        "answers": [
+            {
+                "answerText": "25.000 ~",
+                "correct": false
+            },
+            {
+                "answerText": "42.000 ~",
+                "correct": false
+            },
+            {
+                "answerText": "14.000 ~",
+                "correct": true
+            }
+        ]
+    },
+    {
+        "questionText": "Which is the world's most poisonous mushroom?",
+        "required": false,
+        "questionType": "radio",
+        "answers": [
+            {
+                "answerText": "Hedgehog Mushroom",
+                "correct": false
+            },
+            {
+                "answerText": "Amanita phalloides",
+                "correct": true
+            },
+            {
+                "answerText": "Crimini Mushrooms",
+                "correct": false
+            }
+        ]
+    },
+    {
+        "questionText": "During which season do most mushrooms grow?",
+        "required": true,
+        "questionType": "radio",
+        "answers": [
+            {
+                "answerText": "Winter",
+                "correct": false
+            },
+            {
+                "answerText": "Summer",
+                "correct": false
+            },
+            {
+                "answerText": "Autumn",
+                "correct": true
+            }
+        ]
+    }
+]

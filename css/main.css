@@ -1,0 +1,922 @@
+/*************************************************************
+DA558A HT23 Javascript for web development
+Lab 2
+Created by Pauline Wiman 
+*************************************************************/
+
+/*************************************************************
+TABLE OF CONTENTS 
+
+A. Custom properties (CSS-variables) 
+B. CSS reset (resets browsers' default stylesheets)
+
+GENERAL STYLING
+C.1 General styling 
+C.2 Navigation bar
+
+STYLING FOR INDIVIDUAL PAGES
+1. index.html
+
+2. quiz.html
+
+3. results.html
+
+4. create-quiz.html
+
+************************************************************
+*/
+
+/***********************************************************
+    A. CUSTOM PROPERTIES 
+************************************************************
+*/
+:root {
+    /* Colors */
+    --color-primary: #edf556;
+    --color-primary-hover: #dee732;
+    --color-inactive-menu-button: #777D14;
+    --color-black: #101005;
+    --color-yellow-background: #fdffde;
+    --color-background: #f9f8f9;
+    --color-input-field: #FCFCFB;
+    --color-gray-text: #5D5D5D;
+    --color-correct-green: #357A32;
+    --color-incorrect-red: #CA3120;
+
+    /* Boorders, padding & box shadow */
+    --gray-solid-border: 1px solid #D9D9D9;
+    --text-input-border: 1px solid #B6B6B6;
+    --incorrect-input-border: 2px solid var(--color-incorrect-red);
+    --button-padding: 0.85em 2.5em;
+    --box-shadow: 0px 4px 6px 2px rgba(141, 141, 141, 15%);
+    --button-font-size: clamp(1rem, 1.175vw, 2rem);
+}
+
+/***********************************************************
+    B. CSS-RESET
+************************************************************
+*/
+
+/* Removes browser's default stylesheet */
+*:where(:not(html, input, select, textarea)) {
+    all: unset;
+    display: revert;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* 
+************************************************************
+C.1 GENERAL STYLING
+************************************************************
+*/
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a, button {
+    cursor: pointer;
+}
+
+/* BUTTONS */
+button {
+    padding: var(--button-padding);
+    background-color: var(--color-primary);
+    font-weight: 500;
+    font-size: var(--button-font-size);
+    border-radius: 50px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+#next-button, 
+#return-button, 
+#submit-button,
+#create-quiz-button {
+    align-self: flex-end;
+    padding: 1em 3.5em;
+}
+
+/* ICONS */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.material-symbols-outlined.incorrect-symbol {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    color: var(--color-black);
+    background-color: var(--color-yellow-background);
+}
+
+h1, h2 {
+    font-weight: 700;
+}
+
+h1 {
+    font-size: clamp(2.125rem, 3vw, 5rem);
+    font-family: 'Fira Sans', sans-serif;
+    margin-bottom: 0.25em;
+}
+
+h3 {
+    font-size: clamp(1.125rem, 1.285vw, 2.5rem);
+    font-weight: 500;
+}
+
+p {
+    max-width: 60ch;
+    font-size: clamp(1.1rem, 1.3vw, 2rem);
+    line-height: 1.5;
+}
+
+.hidden  {
+    display: none !important;
+}
+
+main {
+    margin-left: 20%;
+    padding: 3em 0 6em;
+    overflow-y: scroll;
+    overflow: visible;
+}
+
+/* quiz.html, results.html, create-quiz.html */
+#question-section, 
+#results-section, 
+#visitor-information-section, 
+#quiz-name-header,
+#create-quiz-section {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#visitor-information, 
+#results, 
+#create-quiz {
+    background-color: white;
+    padding: clamp(2.5em, 2.778vw, 5em) clamp(3em, 3.333vw, 6em);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    border-top: 1em solid var(--color-primary);
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 68em) {
+    #results, 
+    #visitor-information, 
+    #create-quiz {
+        padding: 2em 1.5em;
+    }
+}
+
+/* INPUT-ELEMENTS */
+input[type="radio"], input[type="checkbox"] {
+    width: clamp(1.25em, 1.389vw, 2em);
+    height: clamp(1.25em, 1.389vw, 2em);
+    margin-inline-end: 0.75em;
+    cursor: pointer;
+}
+
+input[type="text"], textarea, select {
+    background-color: var(--color-input-field);
+    border: var(--text-input-border);
+    padding: clamp(1.25em, 1.389vw, 2em);
+    width: 70%;
+    font-size: clamp(1rem, 1.111vw, 2rem);
+    cursor: text;
+}
+
+/* INPUT-FEEDBACK */
+.incorrect {
+    color: var(--color-incorrect-red);
+}
+
+.correct {
+    color: var(--color-correct-green);
+}
+
+.input-feedback-message {
+    font-size: clamp(1.125rem, 1.25vw, 4rem);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35em;
+    margin-top: clamp(0.5em, 0.556vw, 1em);
+}
+
+.input-feedback-message span.material-symbols-outlined {
+    font-size: clamp(1.5rem, 1.667vw, 4rem);
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 68em) {
+    input[type="text"], textarea, select {
+        width: 100%;
+    }
+}
+
+/* 
+************************************************************
+C.2 NAVIGATION-BAR
+************************************************************
+*/
+header.nav-header {
+    background-color: var(--color-primary);
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+#logo {
+    font-size: clamp(2.4rem, 1.95vw + 1rem, 3.5rem);
+    font-weight: 700;
+    font-family: 'Fira Sans', sans-serif;
+    align-self: center;
+    padding: 0.9em 0;
+}
+
+#logo-small-screen {
+    display: none;
+}
+
+.nav-links {
+    width: 90%;
+    align-self: center;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+
+    padding: var(--button-padding);
+    margin-bottom: 1em;
+    border-radius: 50px;
+    font-size: var(--button-font-size);
+}
+
+.nav-link span {
+    font-size: clamp(1.5rem, 1.85vw, 3rem);
+}
+
+.nav-link:hover, .nav-links a.active {
+    background-color: var(--color-primary-hover);
+}
+
+.fixed-menu-spacer {
+    display: none;
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 68em) {
+    header.nav-header {
+        background-color: unset;
+        width: 100%;
+        height: unset;
+        position: unset;
+    }
+
+    main {
+        margin-left: unset !important; 
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .nav-links, #logo {
+        background-color: var(--color-primary);
+    }
+
+    #logo {
+        display: none;
+    }
+
+    #logo-small-screen {
+        position: fixed;
+        width: 100%;
+        height: 2.4em;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.285rem;
+        font-weight: 700;
+        font-family: 'Fira Sans', sans-serif;
+        text-align: center;
+
+        padding: 0.2em 1em;
+    }
+
+    #logo-small-screen, .nav-links {
+        background-color: var(--color-primary);
+    }
+
+    .fixed-menu-spacer {
+        display: block;
+        height: 3.438em;
+        width: 100%;
+    }
+
+    .nav-links {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .nav-link {
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.75em;
+    }
+
+    .nav-link span {
+        font-size: 1.85rem;
+    }
+
+    .nav-links a.active, .nav-link:hover {
+        background-color: unset;
+    }
+
+    .nav-links a:where(:not(.active)) {
+        color: var(--color-inactive-menu-button);
+    }
+}
+
+/* 
+************************************************************
+************************************************************
+            STYLING FOR INDIVIDUAL PAGES
+************************************************************
+************************************************************
+*/
+
+/*
+ .----------------. 
+| .--------------. |
+| |     __       | |
+| |    /  |      | |
+| |    `| |      | |    
+| |     | |      | |    index.html
+| |    _| |_     | |
+| |   |_____|    | |
+| |              | |
+| '--------------' |
+ '----------------' 
+*/
+
+/* 
+************************************************************
+1.            All quizzes | index.html
+************************************************************
+*/
+
+/* LOADER */
+#loader {
+    border: 10px solid var(--color-primary);
+    border-radius: 50%;
+    border-top: 10px solid var(--color-inactive-menu-button);
+    width: 4em;
+    height: 4em;
+    animation: spin 2s linear infinite;
+    align-self: center;
+    margin: 4em;
+}   
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+/* ALL QUIZZES */
+#all-quizzes {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.all-quizzes-header {
+    align-self: flex-start;
+}
+
+#quiz-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-top: 0.8em solid var(--color-primary);
+}
+
+.quiz-li {
+    border-bottom: var(--gray-solid-border);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(1.25em, 1.6vw, 3em) clamp(2em, 2.222vw, 4em);
+    gap: 1.5em;
+    overflow: hidden;
+}
+
+.quiz-li:last-child {
+    border-bottom: none;
+}
+
+.quiz-li-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0.2em;
+}
+
+.quiz-number-of-questions {
+    color: var(--color-gray-text);
+    font-size: clamp(1rem, 1.2vw, 1.85rem);
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 68em) {
+    main {
+        padding-top: 1.5em;
+    }
+
+    #all-quizzes {
+        width: 100%;
+    }
+
+    .all-quizzes-header {
+        padding: 0 2em;
+    }
+}
+
+/*
+ .----------------. 
+| .--------------. |
+| |    _____     | |
+| |   / ___ `.   | |
+| |  |_/___) |   | |
+| |   .'____.'   | |       quiz.html
+| |  / /____     | |
+| |  |_______|   | |
+| |              | |
+| '--------------' |
+ '----------------' 
+*/
+
+/* 
+************************************************************
+2.            Quiz | quiz.html
+************************************************************
+*/
+
+#quiz-header span, #quiz-name-header span {
+    font-size: clamp(1rem, 1.25vw, 2rem);
+    display: block;
+    margin-bottom: 0.4em;
+}
+
+#question-container {
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2em;
+}
+
+#question-counter {
+    align-self: flex-end;
+    font-size: clamp(1rem, 1.25vw, 2rem);
+    font-weight: 500;
+    margin-bottom: 1em;
+    color: var(--color-gray-text);
+}
+
+#progress-bar {
+    width: 100%;
+    height: 1em;
+    background-color: var(--color-primary);
+}
+
+#progress {
+    background-color: var(--color-primary-hover);
+    height: inherit;
+}
+
+#question {
+    background-color: white;
+    padding: clamp(2em, 2.222vw, 4em) clamp(2.5em, 2.778vw, 4.5em);
+}
+
+#question h2 {
+    font-size: clamp(1.5rem, 1.85vw, 4rem);
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 68em) {
+    #question {
+        padding: 2em 1.5em;
+    }
+}
+
+#question-number {
+    font-size: clamp(1rem, 1.25vw, 2rem);
+    font-weight: 500;
+    color: var(--color-gray-text);
+
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+#answer-section {
+    margin: 2em 0em 3em;
+}
+
+#answer-section h3 {
+    font-size: clamp(1.2rem, 1.45vw, 2.5rem);
+    margin-bottom: 1em;
+}
+
+#answer-form {
+    margin-bottom: 1em;
+}
+
+#answer-list {
+    margin-bottom: 1.5em;
+}
+
+#answer-list:first-child {
+    border-top: var(--gray-solid-border);
+}
+
+.answer {
+    width: 100%;
+    border-bottom: var(--gray-solid-border);
+}
+
+.answer:hover {
+    background-color: var(--color-background);
+    cursor: pointer;
+}
+
+.answer label {
+    width: inherit;
+    display: block;
+    padding: clamp(1.5em, 1.667vw, 2.5em);
+    font-size: clamp(1.1rem, 1.222vw, 2.5rem);
+    line-height: 1.5;
+}
+
+.selected {
+    background-color: var(--color-background);
+}
+
+/*
+ .----------------. 
+| .--------------. |
+| |    ______    | |
+| |   / ____ `.  | |
+| |   `'  __) |  | |
+| |   _  |__ '.  | |        results.html
+| |  | \____) |  | |
+| |   \______.'  | |
+| |              | |
+| '--------------' |
+ '----------------' 
+*/
+
+/* 
+************************************************************
+3.      Visitor-information-form | results.html
+************************************************************
+*/
+#visitor-information h2, #results h2 {
+    font-size: clamp(1.6rem, 2.25vw, 4rem);
+}
+
+#visitor-information p {
+    margin: 0.5em 0 2em;
+}
+
+#visitor-information-form ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    margin-bottom: 3em;
+}
+
+#visitor-information-form ul li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#visitor-information-form label {
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.375vw, 2rem);
+}
+
+/* 
+************************************************************
+3.      Results-section | results.html
+************************************************************
+*/
+#results {
+    gap: 1.5em;
+}
+
+#result-stats {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.25em;
+    margin-bottom: 1em;
+}
+
+/*MEDIA QUERIES */
+@media (max-width: 28em) {
+    #result-stats {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.result-stat h3 {
+    font-size: clamp(1.125rem, 1.5vw, 2.5rem);
+    font-weight: 600;
+    margin-bottom: 0.2em;
+}
+
+.result-stat span {
+    font-size: clamp(1.1rem, 1.3vw, 4rem);
+    color: var(--color-gray-text);
+}
+
+#question-results-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+}
+
+.question-result-li {
+    display: flex;
+    flex-direction: column;
+    border-bottom: var(--gray-solid-border);
+}
+
+.question-result-li:first-child {
+    border-top: var(--gray-solid-border);
+}
+
+.question-result-li:hover {
+    cursor: pointer;
+}
+
+.upper-question-data-section {
+    padding: clamp(1em, 1.111vw, 2em) clamp(1.5em, 1.667vw, 2.5em);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25em;
+}
+
+.upper-question-data-section h4 {
+    font-size: clamp(1.1rem, 1.3vw, 4rem);
+}
+
+.question-result {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.question-result span:first-child {
+    font-size: clamp(1.1rem, 1.3vw, 4rem);
+    margin-right: 0.75em;
+}
+
+.question-result span.material-symbols-outlined {
+    font-size: clamp(1.75rem, 1.944vw, 5rem);
+}
+
+.question-result .expand-button span {
+    font-size: clamp(2.5rem, 2.778vw, 5rem);
+    color: var(--color-gray-text);
+    margin-right: 0;
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+.question-info-section {
+    background-color: var(--color-input-field);
+    border-top: var(--gray-solid-border);
+    padding: clamp(1.5em, 1.667vw, 4em);
+    width: 100%;
+    display: none;
+}
+
+.question-info-section.active {
+    display: block;
+}
+
+.question-info-section h5, .question-info-section h6 {
+    font-weight: 500;
+    font-size: clamp(1rem, 1.15vw, 5rem);
+    color: var(--color-gray-text);
+}
+
+.question-info-section h5 {
+    margin-bottom: 0.75em;
+}
+
+.correct-answers-list {
+    padding-bottom: 1em;
+}
+
+.correct-answers-list li {
+    font-size: clamp(1rem, 1.111vw, 2rem);
+    color: var(--color-gray-text);
+    margin-top: 0.35em;
+}
+
+.expand-button, .expand-button:hover {
+    all: unset;
+    padding-top: 0.4em;
+}
+
+.expand-less-icon{
+    display: none !important;
+}
+
+.expand-less-icon.active {
+    display: inline !important;
+}
+
+.expand-more-icon {
+    display: inline;
+}
+
+.expand-more-icon.active {
+    display: none;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 25em) {
+    .upper-question-data-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .upper-question-data-section h4 {
+        padding-top: 0.5em;
+    }
+
+    .question-result {
+        align-self: flex-end;
+    }
+}
+
+/*
+ .----------------. 
+| .--------------. |
+| |   _    _     | |
+| |  | |  | |    | |
+| |  | |__| |_   | |
+| |  |____   _|  | |          create-quiz.html
+| |      _| |_   | |
+| |     |_____|  | |
+| |              | |
+| '--------------' |
+ '----------------' 
+*/
+
+/* 
+************************************************************
+4.    Create quiz-section | create-quiz.html
+************************************************************
+*/
+#create-quiz form ul {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2em, 2.222vw, 4em);
+    margin-bottom: 2em;
+}
+
+#create-quiz form ul li {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5em, 0.556vw, 2em);
+}
+
+#create-quiz form label:where(:not(.correct-label)) {
+    font-weight: 600;
+    font-size: clamp(1.2rem, 1.5vw, 4rem);
+}
+
+select {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-question-section legend {
+    width: 100%;
+
+    font-size: clamp(1.6rem, 2vw, 4rem);
+    font-weight: 600;
+    margin: 1.5em 0;
+    padding: 1.25em 0;
+    border-top: var(--gray-solid-border);
+    border-bottom: var(--gray-solid-border);
+}
+
+.correct-label {
+    margin-top: 0.25em;
+    width: inherit;
+    display: block;
+    font-size: clamp(1.05rem, 1.167vw, 2rem);
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+input[type="radio"].correct-checkbutton, 
+input[type="checkbox"].correct-checkbutton {
+    width: clamp(1.25em, 1.3vw, 2em);
+    height: clamp(1.25em, 1.3vw, 2em);
+    margin-inline-end: clamp(0.25em, 0.278vw, 1em);
+    cursor: pointer;
+}
+
+#add-another-question-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(2em, 2.222vw, 4em);
+    padding: 3em 0 4em;
+}
+
+#add-another-question-section h2 {
+    font-size: clamp(1.4rem, 1.75vw, 3rem);
+    text-align: center;
+    font-weight: 500;
+    padding: 0 1em;
+}
+
+#add-another-question-button {
+    align-self: center;
+}
